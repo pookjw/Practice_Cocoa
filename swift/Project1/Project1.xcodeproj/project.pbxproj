@@ -75,10 +75,9 @@
 		F3C14D93256428BD00F50610 /* Project1 */ = {
 			isa = PBXGroup;
 			children = (
+				F3C14E1325643D4C00F50610 /* Views */,
 				F3C14DB1256433C700F50610 /* Contents */,
 				F3C14D94256428BD00F50610 /* AppDelegate.swift */,
-				F3C14DA525642C1800F50610 /* SourceViewController.swift */,
-				F3C14DA825642C3800F50610 /* DetailViewController.swift */,
 				F3C14D98256428BD00F50610 /* Assets.xcassets */,
 				F3C14D9A256428BD00F50610 /* Main.storyboard */,
 				F3C14D9D256428BD00F50610 /* Info.plist */,
@@ -102,6 +101,15 @@
 				F3C14DB5256433D100F50610 /* nssl0091.jpg */,
 			);
 			path = Contents;
+			sourceTree = "<group>";
+		};
+		F3C14E1325643D4C00F50610 /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				F3C14DA525642C1800F50610 /* SourceViewController.swift */,
+				F3C14DA825642C3800F50610 /* DetailViewController.swift */,
+			);
+			path = Views;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
