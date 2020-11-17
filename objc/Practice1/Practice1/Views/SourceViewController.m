@@ -24,7 +24,9 @@
     self.pictures = [@[] mutableCopy];
     
     for (NSString *item in items) {
-        if ([item hasPrefix:@"nssl"]) [self.pictures addObject:item];
+        @autoreleasepool {
+            if ([item hasPrefix:@"nssl"]) [self.pictures addObject:item];
+        }
     }
 }
 
