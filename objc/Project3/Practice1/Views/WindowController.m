@@ -24,6 +24,8 @@
     DetailViewController *detail = split.childViewControllers[1];
     NSImage *image = detail.imageView.image;
     
+    if (image == nil) return;
+    
     NSSharingServicePicker *picker = [[NSSharingServicePicker alloc] initWithItems:@[image]];
     [picker showRelativeToRect:CGRectZero ofView:sender preferredEdge:NSRectEdgeMinY];
 }
