@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="17701" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES" customObjectInstantitationMethod="direct">
+    <dependencies>
+        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="17701"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <objects>
+        <customObject id="-2" userLabel="File's Owner" customClass="Photo">
+            <connections>
+                <outlet property="imageView" destination="kzu-jz-ioK" id="TAY-80-FKo"/>
+                <outlet property="view" destination="Hz6-mo-xeY" id="0bl-1N-x8E"/>
+            </connections>
+        </customObject>
+        <customObject id="-1" userLabel="First Responder" customClass="FirstResponder"/>
+        <customObject id="-3" userLabel="Application" customClass="NSObject"/>
+        <customView id="Hz6-mo-xeY">
+            <rect key="frame" x="0.0" y="0.0" width="480" height="272"/>
+            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+            <subviews>
+                <imageView horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="kzu-jz-ioK">
+                    <rect key="frame" x="0.0" y="0.0" width="480" height="272"/>
+                    <imageCell key="cell" refusesFirstResponder="YES" alignment="left" imageScaling="proportionallyDown" id="Nsq-vj-JvD"/>
+                </imageView>
+            </subviews>
+            <constraints>
+                <constraint firstItem="kzu-jz-ioK" firstAttribute="top" secondItem="Hz6-mo-xeY" secondAttribute="top" id="1f0-Si-e6F"/>
+                <constraint firstItem="kzu-jz-ioK" firstAttribute="leading" secondItem="Hz6-mo-xeY" secondAttribute="leading" id="2dE-OT-s22"/>
+                <constraint firstAttribute="bottom" secondItem="kzu-jz-ioK" secondAttribute="bottom" id="9kZ-C1-5eQ"/>
+                <constraint firstAttribute="trailing" secondItem="kzu-jz-ioK" secondAttribute="trailing" id="eM7-cx-AFF"/>
+            </constraints>
+            <point key="canvasLocation" x="-22" y="154"/>
+        </customView>
+        <collectionViewItem id="Ftm-NI-7gb" customClass="Photo"/>
+    </objects>
+</document>

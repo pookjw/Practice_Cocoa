@@ -47,7 +47,7 @@ class ViewController: NSViewController {
             // add it to our view
             view.addSubview(textField)
             
-            // add horizontal contraints saying that this view shoyld stretch from edge to edge
+            // add horizontal contraints saying that this view should stretch from edge to edge
             view.addConstraints(
                 NSLayoutConstraint.constraints(
                     withVisualFormat: "H:|[\(name)]|",
@@ -161,7 +161,7 @@ class ViewController: NSViewController {
             [makeView(9)]
         ])
         
-        // maek that we'll create our own constraints
+        // make that we'll create our own constraints
         gridView.translatesAutoresizingMaskIntoConstraints = false
         view.addSubview(gridView)
         
