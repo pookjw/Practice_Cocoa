@@ -6,6 +6,7 @@
 //
 
 #import <Cocoa/Cocoa.h>
+#import <AVFoundation/AVFoundation.h>
 #import "NSMutableArray+moveItem.h"
 #import "Photo.h"
 

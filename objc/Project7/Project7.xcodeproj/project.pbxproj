@@ -15,6 +15,7 @@
 		F34475CA259CC69100840602 /* NSMutableArray+moveItem.m in Sources */ = {isa = PBXBuildFile; fileRef = F34475C9259CC69100840602 /* NSMutableArray+moveItem.m */; };
 		F34475D2259CC90900840602 /* Photo.m in Sources */ = {isa = PBXBuildFile; fileRef = F34475D0259CC90900840602 /* Photo.m */; };
 		F34475D3259CC90900840602 /* Photo.xib in Resources */ = {isa = PBXBuildFile; fileRef = F34475D1259CC90900840602 /* Photo.xib */; };
+		F38FC280259FC555006C6D28 /* black.mp4 in Resources */ = {isa = PBXBuildFile; fileRef = F38FC27F259FC555006C6D28 /* black.mp4 */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -33,6 +34,7 @@
 		F34475CF259CC90900840602 /* Photo.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Photo.h; sourceTree = "<group>"; };
 		F34475D0259CC90900840602 /* Photo.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = Photo.m; sourceTree = "<group>"; };
 		F34475D1259CC90900840602 /* Photo.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = Photo.xib; sourceTree = "<group>"; };
+		F38FC27F259FC555006C6D28 /* black.mp4 */ = {isa = PBXFileReference; lastKnownFileType = file; path = black.mp4; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -79,6 +81,7 @@
 				F34475CF259CC90900840602 /* Photo.h */,
 				F34475D0259CC90900840602 /* Photo.m */,
 				F34475D1259CC90900840602 /* Photo.xib */,
+				F38FC27F259FC555006C6D28 /* black.mp4 */,
 			);
 			path = Project7;
 			sourceTree = "<group>";
@@ -140,6 +143,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				F34475D3259CC90900840602 /* Photo.xib in Resources */,
+				F38FC280259FC555006C6D28 /* black.mp4 in Resources */,
 				F34475BB259CC65800840602 /* Assets.xcassets in Resources */,
 				F34475BE259CC65800840602 /* Main.storyboard in Resources */,
 			);

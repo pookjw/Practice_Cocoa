@@ -14,6 +14,7 @@
 		F31ED18C259A886000B54680 /* Photo.swift in Sources */ = {isa = PBXBuildFile; fileRef = F31ED18A259A886000B54680 /* Photo.swift */; };
 		F31ED18D259A886000B54680 /* Photo.xib in Resources */ = {isa = PBXBuildFile; fileRef = F31ED18B259A886000B54680 /* Photo.xib */; };
 		F3447523259BEA3C00840602 /* Array+moveItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = F3447522259BEA3C00840602 /* Array+moveItem.swift */; };
+		F38FC27D259F6720006C6D28 /* black.mp4 in Resources */ = {isa = PBXBuildFile; fileRef = F38FC27C259F6720006C6D28 /* black.mp4 */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -27,6 +28,7 @@
 		F31ED18A259A886000B54680 /* Photo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Photo.swift; sourceTree = "<group>"; };
 		F31ED18B259A886000B54680 /* Photo.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = Photo.xib; sourceTree = "<group>"; };
 		F3447522259BEA3C00840602 /* Array+moveItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Array+moveItem.swift"; sourceTree = "<group>"; };
+		F38FC27C259F6720006C6D28 /* black.mp4 */ = {isa = PBXFileReference; lastKnownFileType = file; path = black.mp4; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -68,6 +70,7 @@
 				F31ED182259A833000B54680 /* Info.plist */,
 				F31ED183259A833000B54680 /* Project7.entitlements */,
 				F3447522259BEA3C00840602 /* Array+moveItem.swift */,
+				F38FC27C259F6720006C6D28 /* black.mp4 */,
 			);
 			path = Project7;
 			sourceTree = "<group>";
@@ -130,6 +133,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				F31ED18D259A886000B54680 /* Photo.xib in Resources */,
+				F38FC27D259F6720006C6D28 /* black.mp4 in Resources */,
 				F31ED17E259A833000B54680 /* Assets.xcassets in Resources */,
 				F31ED181259A833000B54680 /* Main.storyboard in Resources */,
 			);

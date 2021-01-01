@@ -62,7 +62,200 @@
     }
 }
 
-//
+- (void)exportFinishedWithError:(NSError * _Nullable)error {
+    NSString *message;
+    
+    if (error != nil) {
+        message = [NSString stringWithFormat:@"Error: %@", error.localizedDescription];
+    } else {
+        message = @"Success";
+    }
+    
+    NSAlert *alert = [NSAlert new];
+    alert.messageText = message;
+    [alert runModal];
+}
+
+- (CALayer *)createTextWithFrame:(CGRect)frame {
+    // create a dictionary of text attributes
+    NSDictionary<NSAttributedStringKey, id> *attrs = @{
+        NSFontAttributeName: [NSFont boldSystemFontOfSize:24],
+        NSForegroundColorAttributeName: [NSColor greenColor]
+    };
+    
+    // combine those attributes with our message
+    NSAttributedString *text = [[NSAttributedString alloc]
+                                initWithString:@"Copyright © 2017 Hacking with Swift"
+                                attributes:attrs];
+    
+    // figure out how big the full string is
+    NSSize textSize = [text size];
+    
+    // create the text layer
+    CATextLayer *textLayer = [CATextLayer new];
+    
+    // make the text layer the correct size
+    textLayer.bounds = CGRectMake(0, 0, textSize.width, textSize.height);
+    
+    // make it align itself by its bottom-right corner
+    // https://rhammer.tistory.com/316
+    textLayer.anchorPoint = CGPointMake(1, 1);
+    
+    // position it just up from the bottom-right of the render frame
+    textLayer.position = CGPointMake(CGRectGetMaxX(frame), textSize.height + 10);
+    
+    // give it the attributed string we created
+    textLayer.string = text;
+    
+    // force it to render immediately
+    [textLayer display];
+    
+    return textLayer;
+}
+
+- (CALayer *)createSlideshowWithFrame:(CGRect)frame duration:(CFTimeInterval)duration {
+    // create the layer for our slideshow
+    CALayer *imageLayer = [CALayer new];
+    
+    // position it so it fills its space and is centered
+    imageLayer.bounds = frame;
+    imageLayer.position = CGPointMake(CGRectGetMidX(imageLayer.bounds), CGRectGetMidY(imageLayer.bounds));
+    
+    // make it stretch its contents to fit
+    imageLayer.contentsGravity = kCAGravityResizeAspectFill;
+    
+    // create a keyframe animation of the `contents` property
+    CAKeyframeAnimation *fadeAnim = [CAKeyframeAnimation animationWithKeyPath:@"contents"];
+    
+    // tell it to last as long as we need
+    fadeAnim.duration = duration;
+    
+    // configure the properties as mentioned above
+    fadeAnim.removedOnCompletion = NO;
+    fadeAnim.beginTime = AVCoreAnimationBeginTimeAtZero;
+    
+    // prepare an array of all the `NSImage` objects we want to show
+    NSMutableArray<NSImage *> *values = [@[] mutableCopy];
+    
+    // loop through every photo, adding it twice so we're not constantly animating
+    for (NSURL *photo in self.photos) {
+        NSImage *image = [[NSImage alloc] initWithContentsOfURL:photo];
+        if (image != nil) {
+            [values addObject:image];
+        }
+    }
+    
+    // assign that array to the animation
+    fadeAnim.values = values;
+    
+    // then add the animation to the layer
+    [imageLayer addAnimation:fadeAnim forKey:nil];
+    
+    return imageLayer;
+}
+
+- (CALayer *)createVideoLayerIn:(CALayer *)parentLayer
+                    composition:(AVMutableComposition *)composition
+               videoComposition:(AVMutableVideoComposition *)videoComposition
+                      timeRange:(CMTimeRange)timeRange {
+    // create a layer for the video
+    CALayer *videoLayer = [CALayer new];
+    
+    // configure our post-procesing animation tool
+    videoComposition.animationTool = [AVVideoCompositionCoreAnimationTool
+                                      videoCompositionCoreAnimationToolWithPostProcessingAsVideoLayer:videoLayer
+                                      inLayer:parentLayer];
+    
+    // prepare to add the black.mp4 video
+    AVMutableCompositionTrack *mutableCompositionVideoTrack = [composition
+                                                          addMutableTrackWithMediaType:AVMediaTypeVideo
+                                                          preferredTrackID:kCMPersistentTrackID_Invalid];
+    
+    // find and load the black.mp4 video
+    NSURL *trackURL = [[NSBundle mainBundle] URLForResource:@"black" withExtension:@"mp4"];
+    AVAsset *asset = [AVAsset assetWithURL:trackURL];
+    
+    // pull out its video
+    AVAssetTrack *track = asset.tracks[0];
+    
+    // insert it into the track, filling all the time we need
+    [mutableCompositionVideoTrack insertTimeRange:timeRange ofTrack:track atTime:kCMTimeZero error:nil];
+    
+    // send the video layer back
+    return videoLayer;
+}
+
+- (void)exportMovieAt:(NSSize)size withError:(NSError **)error{
+    // 1: we're going to hard code the video 8 seconds
+    double videoDuration = 8.0;
+    CMTimeRange timeRange = CMTimeRangeMake(kCMTimeZero, CMTimeMakeWithSeconds(videoDuration, 600));
+    
+    // 2: create a URL we can save our video to, then delete it if it already exists
+    NSURL *savePath = [self.photoDirectory URLByAppendingPathComponent:@"video.mp4"];
+    NSFileManager *fm = NSFileManager.defaultManager;
+    
+    if ([fm fileExistsAtPath:savePath.path]) {
+        [fm removeItemAtURL:savePath error:error];
+    }
+    
+    // 3: create a composition for our entire render
+    AVMutableComposition *mutableComposition = [AVMutableComposition new];
+    
+    // 4: create a video composition for our post-processing video work (this is the only thing we're doing)
+    AVMutableVideoComposition *videoComposition = [AVMutableVideoComposition new];
+    videoComposition.renderSize = size;
+    videoComposition.frameDuration = CMTimeMake(1, 30);
+    
+    // 5: create a master `CALayer` that will hold all the child layers
+    CALayer *parentLayer = [CALayer new];
+    parentLayer.frame = CGRectMake(0, 0, size.width, size.height);
+    
+    // 6: add all three child layers to the master layer
+    [parentLayer addSublayer:[self createVideoLayerIn:parentLayer
+                                          composition:mutableComposition
+                                     videoComposition:videoComposition
+                                            timeRange:timeRange]];
+    [parentLayer addSublayer:[self createSlideshowWithFrame:parentLayer.frame duration:videoDuration]];
+    [parentLayer addSublayer:[self createTextWithFrame:parentLayer.frame]];
+    
+    // 7: create video rendering instructions saying how long a video we want
+    AVMutableVideoCompositionInstruction *instruction = [AVMutableVideoCompositionInstruction new];
+    instruction.timeRange = timeRange;
+    videoComposition.instructions = @[instruction];
+    
+    // 8: create an export session for our whole composition, requesting maximum quality
+    AVAssetExportSession *exportSession = [AVAssetExportSession exportSessionWithAsset:mutableComposition presetName:AVAssetExportPresetHighestQuality];
+    
+    // 9: point the export session at the URL to our save file, pass it the post-processing work, and ask for an MPEG4 in return
+    exportSession.outputURL = savePath;
+    exportSession.videoComposition = videoComposition;
+    exportSession.outputFileType = AVFileTypeMPEG4;
+    
+    __weak ViewController *weakSelf = self;
+    // 10: start the export
+    [exportSession exportAsynchronouslyWithCompletionHandler:^() {
+        dispatch_async(dispatch_get_main_queue(), ^{
+            // the export has finished - call `exportFinishedWithError:`
+            [weakSelf exportFinishedWithError:exportSession.error];
+        });
+    }];
+}
+
+- (IBAction)runExport:(NSMenuItem *)sender {
+    CGSize size;
+    
+    if (sender.tag == 720) {
+        size = CGSizeMake(1280, 720);
+    } else {
+        size = CGSizeMake(1920, 1080);
+    }
+    
+    NSError *error = nil;
+    [self exportMovieAt:size withError:&error];
+    if (error != nil) NSLog(@"Error");
+}
+
+#pragma mark NSCollectionViewDataSource, NSCollectionViewDelegate
 
 - (NSInteger)collectionView:(NSCollectionView *)collectionView
      numberOfItemsInSection:(NSInteger)section
