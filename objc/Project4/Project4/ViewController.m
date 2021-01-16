@@ -50,6 +50,8 @@
     webView.wantsLayer = YES;
     [webView loadRequest:request];
     
+    [webView addObserver:self forKeyPath:@"estimatedProgress" options:NSKeyValueObservingOptionNew context:nil];
+    
     recognizer.numberOfClicksRequired = 2;
     recognizer.delegate = self;
     [webView addGestureRecognizer:recognizer];
@@ -293,5 +295,13 @@
             [last removeFromSuperview];
         }
     }
+}
+
+- (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary<NSKeyValueChangeKey,id> *)change context:(void *)context {
+    WKWebView *webView = (WKWebView *)object;
+    if (webView == nil) return;
+    NSURL *url = webView.URL;
+    if (url == nil) return;
+    NSLog(@"The URL %@ loaded %f", url.absoluteString, webView.estimatedProgress);
 }
 @end

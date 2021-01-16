@@ -72,6 +72,8 @@ class ViewController: NSViewController, WKNavigationDelegate, NSGestureRecognize
         webView.wantsLayer = true
         webView.load(URLRequest(url: URL(string: "https://www.apple.com")!))
         
+        webView.addObserver(self, forKeyPath: #keyPath(WKWebView.estimatedProgress), options: .new, context: nil)
+        
         let recognizer = NSClickGestureRecognizer(target: self, action: #selector(webViewClicked(recognizer:)))
         recognizer.numberOfClicksRequired = 2
         recognizer.delegate = self
@@ -269,6 +271,12 @@ class ViewController: NSViewController, WKNavigationDelegate, NSGestureRecognize
                 }
             }
         }
+    }
+    
+    override func observeValue(forKeyPath keyPath: String?, of object: Any?, change: [NSKeyValueChangeKey : Any]?, context: UnsafeMutableRawPointer?) {
+        guard let webView = object as? WKWebView else { return }
+        guard let url = webView.url else { return }
+        print("The URL \(url) loaded \(webView.estimatedProgress)")
     }
 }
 
